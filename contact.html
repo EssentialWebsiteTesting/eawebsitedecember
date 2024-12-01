@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="swiper-bundle.min.css">
+
+    <link rel="stylesheet" href="styles.css" />
+    <title>Essential Autism</title>
+    <link rel="icon" href="assets/ealogo.png" type="image/x-icon">
+  </head>
+  <body>
+
+    <header class="contactheader">
+      <nav>
+        <div class="nav__header">
+          <div class="nav__logo">
+            <a href="index.html">
+              <img src="assets/EA_vert_RGB.png" alt="logo"/>
+            </a>
+          </div>
+          <div class="nav__menu__btn" id="menu-btn">
+            <span><i class="ri-menu-line"></i></span>
+          </div>
+        </div>
+        <ul class="nav__links" id="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="careers.html">Career Opportunities</a></li>
+          <li><a href="resources.html">Resources</a></li>
+        </ul>
+        <div class="header__btns">
+          <a href="contact.html">
+            <button id="contact-button" class="btn">Contact Us!</button>
+          </a>
+        </div>
+      </nav>
+      <div class="section__container header__container" id="contact">
+        <div class="logo-container">
+            <img src="assets/EA_vert_wht.png" alt="logo"/>
+        </div>
+        <h1 class ="header__text">Get in Touch with Essential Today!</h1>
+      </div>
+    </header>
+    
+    <section class="banner" id="contactnow">
+      <div class="section__container banner__container">
+        <div class="banner__content">
+          <h3 class="section__subheader">Get Started!</h3>
+          <h2 class="section__header">How Can We Assist?</h2>
+          <p class="section__description">
+            At Essential Autism, we're here to support you. If you're interested in learning more about our services or scheduling a consultation, 
+            please fill out our contact form, and a member of our team will be in touch with you shortly.
+          </p>
+          <h2 class="section__header">Office Hours</h2>
+          <p class="section__description">
+            <span class="weekday">Mon - Fri</span> 8:00 am - 4:00 pm<br>
+            <span class="weekday">Sat - Sun</span> Appointment Only
+          </p>
+          <h2 class="section__header">Business Info</h2>
+          <p class="section__description">
+            <ul class="section__links">
+              <li>
+                <a href="https://www.google.com/maps/place/1030+Walker+Rd,+Windsor,+ON+N8Y+2N5/@42.3192983,-83.0044952,16z/data=!3m1!4b1!4m6!3m5!1s0x883b2cbd48c958c9:0x1867f3d45c74d27b!8m2!3d42.3192983!4d-83.0044952!16s%2Fg%2F11cnd76h8n?entry=ttu">
+                  <span><i class="ri-map-pin-2-fill"></i></span>
+                  1030 Walker Rd #1, Windsor, ON N8Y 2N5 <br />
+                </a>
+              </li>
+              <li><a href="tel:+226-506-3400"><span><i class="ri-phone-fill"></i></span>(226) 260-4554</a></li>
+              <li><a href="mailto:eaesoffice@gmail.com"><span><i class="ri-mail-fill"></i></span>eaesoffice@gmail.com</a></li>
+            </ul>
+          </p>
+        </div>
+        
+        <div class="header__form">
+          <form id="contactForm" action="https://formkeep.com/f/cb8f20d410e1" method="POST" enctype="multipart/form-data" onsubmit="handleSubmit(event);">
+              <h4>Contact Now</h4>
+              <input type="text" name="name" placeholder="Name" required />
+              <input type="email" name="email" placeholder="Email" required />
+              <input type="tel" name="phone" placeholder="Phone" required />
+              <select name="need" required>
+                  <option disabled selected value="">Select your need</option>
+                  <option value="general">General Inquiry</option>
+                  <option value="appointment">Appointment Booking</option>
+                  <option value="support">Support Request</option>
+                  <option value="other">Other</option>
+              </select>
+              <textarea name="message" placeholder="Your message" required></textarea>
+              <button type="submit" class="btn form__btn">Submit</button>
+          </form>
+
+          <!-- Popup -->
+          <div class="popup-container" id="popupContainer">
+            <div class="popup" id="popup">
+                <img src="assets/tick2.png" alt="">
+                <h2>Thank You!</h2>
+                <p>Your details have been successfully submitted. We will reach out to you as soon as possible. Thank you for your patience!</p>
+                <button type="button" onclick="confirmSubmission()">OK</button>
+            </div>
+          </div>
+    </div>
+</section>
+
+      <section class="section__container faq2__container" id="faq2">
+        <div class="faq2__content">
+            <h3 class="section__subheader">Ask By Client</h3>
+            <h2 class="section__header">Frequently Asked Questions</h2>
+            <p class="section__description">
+                Explore answers to your questions about autism support, educational services, and our commitment to families.
+            </p>
+            <div class="faq2__grid">
+                <div class="faq2__card">
+                    <div class="faq2__header">
+                        <h4>What types of support services do you offer?</h4>
+                        <span><i class="ri-arrow-down-s-line"></i></span>
+                    </div>
+                    <div class="faq2__description">
+                      We specialize in providing Behaviour Analysis (BA) therapy and Respite Services. 
+                      Our BA therapy programs are tailored to promote positive behaviour changes and skill development 
+                      in individuals with developmental disabilities.
+                    </div>
+                </div>
+                <div class="faq2__card">
+                    <div class="faq2__header">
+                        <h4>How can I begin services with Essential Autism?</h4>
+                        <span><i class="ri-arrow-down-s-line"></i></span>
+                    </div>
+                    <div class="faq2__description">
+                        Fill out our contact form with your information, and our team will reach out to you promptly to 
+                        schedule a consultation or meeting.
+                    </div>
+                </div>
+                <div class="faq2__card">
+                    <div class="faq2__header">
+                        <h4>What age groups do you provide services for?</h4>
+                        <span><i class="ri-arrow-down-s-line"></i></span>
+                    </div>
+                    <div class="faq2__description">
+                        Essential Autism offers services for individuals of all ages, from early childhood through adulthood.
+                    </div>
+                </div>
+                <div class="faq2__card">
+                    <div class="faq2__header">
+                        <h4>Are your services covered by insurance?</h4>
+                        <span><i class="ri-arrow-down-s-line"></i></span>
+                    </div>
+                    <div class="faq2__description">
+                      We accept various forms of funding, including OAP, Passport, and Respite funds, among others. 
+                      We are also listed as an approved OAP provider. With Dwayne serving as our Clinical Supervisor, we can 
+                      assist families in accessing OAP funding for Behaviour Analysis services. Additionally, many insurance plans 
+                      cover our services. We encourage you to contact your insurance provider to confirm your specific coverage details.
+                    </div>
+                </div>
+                <div class="faq2__card">
+                    <div class="faq2__header">
+                        <h4>What is the process for getting a consultation?</h4>
+                        <span><i class="ri-arrow-down-s-line"></i></span>
+                    </div>
+                    <div class="faq2__description">
+                        To get a consultation, simply fill out our contact form, and our team will reach out to schedule a time that works for you.
+                    </div>
+                </div>
+    
+                <div class="faq2__card">
+                    <div class="faq2__header">
+                        <h4>How do I know if my child needs BA therapy?</h4>
+                        <span><i class="ri-arrow-down-s-line"></i></span>
+                    </div>
+                    <div class="faq2__description">
+                      If you're noticing difficulties in communication, social interaction, or behaviour, a consultation with our specialists can help 
+                      determine the need for BA therapy.
+                    </div>
+                </div>
+                <div class="faq2__card">
+                    <div class="faq2__header">
+                        <h4>What qualifications do your therapists have?</h4>
+                        <span><i class="ri-arrow-down-s-line"></i></span>
+                    </div>
+                    <div class="faq2__description">
+                        Our therapists are highly trained and certified in Applied Behaviour Analysis, ensuring quality care for your loved ones.
+                    </div>
+                </div>
+                <div class="faq2__card">
+                    <div class="faq2__header">
+                        <h4>Do you offer virtual services?</h4>
+                        <span><i class="ri-arrow-down-s-line"></i></span>
+                    </div>
+                    <div class="faq2__description">
+                        Yes, we provide virtual therapy sessions to accommodate families' needs and preferences.
+                    </div>
+                </div>
+                <div class="faq2__card">
+                    <div class="faq2__header">
+                        <h4>How often will my child receive therapy?</h4>
+                        <span><i class="ri-arrow-down-s-line"></i></span>
+                    </div>
+                    <div class="faq2__description">
+                      The frequency of therapy sessions is customized to meet each individual's unique needs, as determined during the initial consultation. 
+                      For families with funding, we require a minimum of 10 hours of services per week.
+
+                    </div>
+                </div>
+                <div class="faq2__card">
+                    <div class="faq2__header">
+                        <h4>What should I expect during the first session?</h4>
+                        <span><i class="ri-arrow-down-s-line"></i></span>
+                    </div>
+                    <div class="faq2__description">
+                        The first session typically involves assessments, goal-setting, and creating a personalized treatment plan for your child.
+                    </div>
+                </div>
+            </div><br>
+        </div>
+    </section>
+    
+    
+  
+  
+
+
+    <footer id="contact2">
+      <div class="section__container footer__container">
+        <div class="footer__col">
+          <h4>About Us</h4>
+          <p>
+            At Essential Autism, we are dedicated to enhancing the lives of individuals with autism and other 
+            developmental disabilities through compassionate care and innovative therapies to help every individual reach their full potential. 
+            Join us in making a difference in our community!
+          </p>
+          <div class="header__btns">
+            <a href="contact.html">
+              <button id="contact-button" class="btn">Contact Us!</button>
+            </a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h4>Quick Links</h4>
+          <ul class="footer__links">
+            <li><a href="about.html">About</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="careers.html">Career Opportunities</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Photo Gallery</h4>
+          <div class="footer__media">
+            <img src="assets/playingcards.jpg" alt="media" />
+            <img src="assets/celebrate.jpg" alt="media" />
+            <img src="assets/childhelp.jpg" alt="media" />
+            <img src="assets/online.jpg" alt="media" />
+            <img src="assets/playingtoys.jpg" alt="media" />
+            <img src="assets/book.jpg" alt="media" />
+          </div>
+          <div class="footer__socials">
+            <a href="https://www.facebook.com/essential.autism/"><i class="ri-facebook-fill"></i></a>
+            <a href="https://www.linkedin.com/company/essential-autism-educational-services-inc/?originalSubdomain=ca"><i class="ri-linkedin-fill"></i></a>
+            <a href="https://www.instagram.com/essentialautism_es/"><i class="ri-instagram-line"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bar">
+        Copyright © 2024 Essential Autism. All rights reserved.
+      </div>
+    </footer>
+
+    <script src="swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

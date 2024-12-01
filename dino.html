@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pugsley Game</title>
+    <link rel="icon" href="img/pugpic.png" type="image/x-icon">
+
+    <div>
+        <a href="index.html">
+            <button id="home-button">Back to Home</button>
+        </a>
+      </div>
+    <script type="module">
+        // Firebase SDK imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+        import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBR0cfkJGXhi5DRSym4vU5Hqvyeh2bk3C0",
+            authDomain: "esssentialwebsite123.firebaseapp.com",
+            databaseURL: "https://esssentialwebsite123-default-rtdb.firebaseio.com",
+            projectId: "esssentialwebsite123",
+            storageBucket: "esssentialwebsite123.appspot.com",
+            messagingSenderId: "412291048208",
+            appId: "1:412291048208:web:531c2477906d3a08b87b95",
+            measurementId: "G-M6SKGH8EPN"
+        };
+        
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Initialize score
+        let score = 0;
+        let gameOver = true;
+        let playerName = "";
+
+// Add the validation code here
+const badWords = [/badword|inappropriate|offensive/gi, /profanity|hatespeech/gi]; // Add more regex patterns as needed
+
+function validatePlayerName() {
+  for (const regex of badWords) {
+    if (regex.test(playerName)) {
+      alert('Please enter a valid name. Inappropriate names are not allowed.');
+      playerName = "";
+      return;
+    }
+  }
+}
+
+function updatePlayerName() {
+  playerName = document.getElementById('name-input').value.trim();
+  validatePlayerName();
+}
+
+// Call the updatePlayerName function when the input field changes
+document.getElementById('name-input').addEventListener('input', updatePlayerName);
+        // Function to save score to Firebase
+        function saveScore(name, score) {
+    const scoresRef = ref(db, 'scores/');
+    get(scoresRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            const scores = snapshot.val();
+            if (scores[name]) {
+                if (scores[name].score < score) {
+                    scores[name].score = score;
+                }
+            } else {
+                scores[name] = { score: score };
+            }
+            set(scoresRef, scores).then(() => {
+                console.log('Score saved successfully.');
+                getScores(); // Refresh the leaderboard after saving the score
+            }).catch((error) => {
+                console.error('Error saving score:', error);
+            });
+        } else {
+            console.log("No data available");
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+
+        // Function to retrieve scores from Firebase
+        function getScores() {
+            const scoresRef = ref(db, 'scores/');
+            get(scoresRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const scores = snapshot.val();
+                    displayScores(scores);
+                } else {
+                    console.log("No data available");
+                }
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+
+        // Function to display scores on the leaderboard
+        function displayScores(scores) {
+            const leaderboard = document.getElementById('leaderboard');
+            leaderboard.innerHTML = ''; // Clear previous scores
+            const sortedScores = Object.entries(scores).sort((a, b) => b[1].score - a[1].score);
+            for (let i = 0; i < Math.min(10, sortedScores.length); i++) {
+                const scoreItem = document.createElement('li');
+                scoreItem.textContent = `${sortedScores[i][0]}: ${sortedScores[i][1].score}`;
+                leaderboard.appendChild(scoreItem);
+            }
+        }
+        const deathSound = new Audio('sounds/death.mp3');
+        // Function to handle the end of the game
+        function endGame() {
+            saveScore(playerName, score);
+            alert('Game Over! Your score was: ' + score);
+            
+            gameOver = true;
+            score = 0;
+            document.getElementById('start-button').style.display = 'block';
+            document.getElementById('name-input').style.display = 'block';
+            document.getElementById('board').style.display = 'none';
+            cactusArray = [];
+            cloudArray = [];
+        }
+
+        // Initialize game elements
+        let isJumping = false;
+        let board;
+        let boardWidth = 750;
+        let boardHeight = 250;
+        let context;
+
+        //dino
+        let dinoWidth = 88;
+        let dinoHeight = 94;
+        let dinoX = 50;
+        let dinoY = boardHeight - dinoHeight;
+        let dinoImg;
+
+        let dino = {
+            x : dinoX,
+            y : dinoY,
+            width : dinoWidth,
+            height : dinoHeight
+        }
+
+        //cactus
+        let cactusArray = [];
+
+        let cactus1Width = 34;
+        let cactus2Width = 69;
+        let cactus3Width = 102;
+
+        let cactusHeight = 70;
+        let cactusX = 700;
+        let cactusY = boardHeight - cactusHeight;
+
+        let cactus1Img;
+        let cactus2Img;
+        let cactus3Img;
+
+        //clouds
+        let cloudArray = [];
+
+        let cloudWidth = 100;
+        let cloudHeight = 50;
+        let cloudX = 700;
+        let cloudY = 50;
+
+        let cloudImg;
+
+   
+        //physics
+        let velocityX = -4; //cactus moving left speed
+        let velocityY = 0;
+        let gravity = .2;
+
+        // Animate the game container
+        function animateBackground() {
+            const gameContainer = document.getElementById('game-container');
+            let backgroundPosition = 0;
+            setInterval(() => {
+                backgroundPosition -= 1;
+                gameContainer.style.backgroundPosition = `-${backgroundPosition}px 0`;
+            }, 16); // 16ms = 60fps
+        }
+        animateBackground();
+
+        window.onload = function() {
+            document.getElementById('start-button').addEventListener('click', startGame);
+        }
+
+        function startGame() {
+    
+            playerName = document.getElementById('name-input').value;
+            if (playerName) {
+                document.getElementById('start-button').style.display = 'none';
+                document.getElementById('name-input').style.display = 'none';
+                document.getElementById('board').style.display = 'block';
+                board = document.getElementById("board");
+                board.height = boardHeight;
+                board.width = boardWidth;
+
+                context = board.getContext("2d"); //used for drawing on the board
+
+                //draw initial dinosaur
+                dinoImg = new Image();
+                dinoImg.src = "./img/pugpic.png";
+                dinoImg.onload = function() {
+                    context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
+                }
+
+                cactus1Img = new Image();
+                cactus1Img.src = "./img/cactus1.png";
+
+                cactus2Img = new Image();
+                cactus2Img.src = "./img/cactus2.png";
+
+                cactus3Img = new Image();
+                cactus3Img.src = "./img/cactus3.png";
+
+                cloudImg = new Image();
+                cloudImg.src = "./img/cloud.png";
+
+                requestAnimationFrame(update);
+                setInterval(placeCactus, 1000); //1000 milliseconds = 1 second
+                setInterval(placeCloud, 2000); //2000 milliseconds = 2 seconds
+            
+                document.addEventListener("keydown", moveDino);
+                gameOver = false;
+            } else {
+                alert('Please enter your name!');
+            }
+        }
+
+        function update() {
+            if (gameOver) {
+                return;
+            }
+            requestAnimationFrame(update);
+            context.clearRect(0, 0, board.width, board.height);
+
+            //dino
+            velocityY += gravity;
+            dino.y = Math.min(dino.y + velocityY, dinoY); //apply gravity to current dino.y, making sure it doesn't exceed the ground
+            context.drawImage(dinoImg, dino.x, dino.y, dino.width, dino.height);
+
+            //cactus
+            for (let i = 0; i < cactusArray.length; i++) {
+                let cactus = cactusArray[i];
+                cactus.x += velocityX;
+                context.drawImage(cactus.img, cactus.x, cactus.y, cactus.width, cactus.height);
+
+                if (detectCollision(dino, cactus)) {
+                    gameOver = true;
+                    deathSound.play();
+                    endGame();
+                }
+            }
+
+            //clouds
+            for (let i = 0; i < cloudArray.length; i++) {
+                let cloud = cloudArray[i];
+                cloud.x += velocityX;
+                context.drawImage(cloudImg, cloud.x, cloud.y, cloud.width, cloud.height);
+            }
+
+
+
+            //score
+            context.fillStyle="black";
+            context.font="20px courier";
+            context.clearRect(0, 0, 150, 30); // Clear a larger score area
+            context.fillText("Score: " + score.toString().padStart(4, '0'), 5, 20); // Display the score with leading zeros
+            score++;
+
+        }
+
+        function moveDino(e) {
+            if (gameOver) {
+                return;
+            }
+
+            if ((e.code == "Space" || e.code == "ArrowUp") && dino.y == dinoY) {
+                //jump
+                velocityY = -10;
+            }
+            else if (e.code == "ArrowDown" && dino.y == dinoY) {
+                //duck
+                dino.y = dinoY - 20;
+            }
+        }
+
+        function placeCactus() {
+            if (gameOver) {
+                return;
+            }
+
+            //place cactus
+ let cactus = {
+                img : null,
+                x : cactusX,
+                y : cactusY,
+                width : null,
+                height: cactusHeight
+            }
+
+            let placeCactusChance = Math.random(); //0 - 0.9999...
+
+            if (placeCactusChance > .90) { //10% you get cactus3
+                cactus.img = cactus3Img;
+                cactus.width = cactus3Width;
+                cactusArray.push(cactus);
+            }
+            else if (placeCactusChance > .70) { //30% you get cactus2
+                cactus.img = cactus2Img;
+                cactus.width = cactus2Width;
+                cactusArray.push(cactus);
+            }
+            else if (placeCactusChance > .50) { //50% you get cactus1
+                cactus.img = cactus1Img;
+                cactus.width = cactus1Width;
+                cactusArray.push(cactus);
+            }
+
+            if (cactusArray.length > 5) {
+                cactusArray.shift(); //remove the first element from the array so that the array doesn't constantly grow
+            }
+        }
+
+        function placeCloud() {
+            if (gameOver) {
+                return;
+            }
+
+            //place cloud
+            let cloud = {
+                img : cloudImg,
+                x : cloudX,
+                y : cloudY,
+                width : cloudWidth,
+                height: cloudHeight
+            }
+
+            cloudArray.push(cloud);
+
+            if (cloudArray.length > 5) {
+                cloudArray.shift(); //remove the first element from the array so that the array doesn't constantly grow
+            }
+        }
+
+
+        function detectCollision(a, b) {
+            return a.x < b.x + b.width &&   //a's top left corner doesn't reach b's top right corner
+                   a.x + a.width > b.x &&   //a's top right corner passes b's top left corner
+                   a.y < b.y + b.height &&  //a's top left corner doesn't reach b 's bottom left corner
+                   a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
+        }
+    </script>
+    <style>
+        #game-container {
+            border : 2px solid #000;
+            width: 600px;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            background-color: #f8f8f8; /* Light background for visibility */
+            background-image: linear-gradient(to right, #f8f8f8, #fff); /* Add a gradient for a moving effect */
+            border-radius: 10px; /* Add a rounded corner effect */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow effect */
+        }
+        #board {
+            border: 1px solid #000;
+            display: none;
+        }
+        #leaderboard-container {
+            background-color: #f0f0f0; /* Light gray background */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        #leaderboard {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #leaderboard li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        #leaderboard li:last-child {
+            border-bottom: none;
+        }
+      :root {
+            --primary-color: #005487;
+            --primary-color-dark: #00635b;
+            --primary-color-light: #e9f7f7;
+            --text-dark: #111827;
+            --text-light: #6b7280;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-color-light);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #game-container {
+            border: 2px solid var(--primary-color-dark);
+            width: 600px;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            background-color: #f8f8f8;
+            background-image: linear-gradient(to right, #f8f8f8, #fff);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        #board {
+            border: 1px solid var(--primary-color-dark);
+            display: none;
+        }
+
+        #leaderboard {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            background: var(--primary-color-light);
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        #leaderboard li {
+            padding: 10px;
+            border-bottom: 1px solid var(--text-light);
+            text-align: center;
+        }
+
+        #leaderboard li:last-child {
+            border-bottom: none;
+        }
+
+        #start-button, #name-input,#home-button  {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 16px;
+            margin: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #start-button:hover, #name-input:hover, #home-button:hover{
+            background-color: var(--primary-color-dark);
+        }
+        
+
+        #name-input {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid var(--text-light);
+            border-radius: 5px;
+        }
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+        
+    </style>
+</head>
+<body>
+    <h1 style="font-size: 2rem; font-weight: 700; color: var(--primary-color-dark);">Pugsley Game</h1>
+    <h2 style=" font-size: 1rem; font-weight: 600; color: var(--primary-color);">The Essential Game</h2>
+    <div id="name-container">
+        <input type="text" id="name-input" placeholder="Enter your name" />
+        <button id="start-button">Start Game</button>
+    </div>
+    <div id="game-container">
+        <canvas id="board"></canvas>
+        <p>Press the spacebar to jump over the cactus.</p>
+    </div>
+    <div id="leaderboard-container">
+        <h2>Leaderboard</h2>
+        <ul id="leaderboard"></ul>
+    </div>
+</body>
+</html>
