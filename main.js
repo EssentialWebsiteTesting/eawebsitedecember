@@ -2,9 +2,33 @@ const menuBtn = document.getElementById("menu-btn");
 const navLinks = document.getElementById("nav-links");
 const menuBtnIcon = menuBtn.querySelector("i");
 
+// Function to add the Contact link to the dropdown menu
+function addContactToDropdown() {
+  // Check if the Contact link already exists
+  if (!document.querySelector("#nav-links .mobile-contact")) {
+    const contactLink = document.createElement("li");
+    contactLink.classList.add("mobile-contact"); // Add a class to identify it
+    contactLink.innerHTML = `<a href="contact.html">Contact</a>`;
+    navLinks.appendChild(contactLink);
+  }
+}
+
+// Function to remove the Contact link from the dropdown menu
+function removeContactFromDropdown() {
+  const contactLink = document.querySelector("#nav-links .mobile-contact");
+  if (contactLink) {
+    contactLink.remove();
+  }
+}
+
 // Toggle the mobile menu
 menuBtn.addEventListener("click", () => {
   navLinks.classList.toggle("open");
+
+  // Add the Contact link when the menu opens in mobile view
+  if (navLinks.classList.contains("open")) {
+    addContactToDropdown();
+  }
 
   // Change the icon based on the menu state
   const isOpen = navLinks.classList.contains("open");
@@ -12,16 +36,30 @@ menuBtn.addEventListener("click", () => {
 });
 
 // Close the mobile menu when a link is clicked
-navLinks.addEventListener("click", () => {
-  navLinks.classList.remove("open");
-  menuBtnIcon.setAttribute("class", "ri-menu-line");
+navLinks.addEventListener("click", (e) => {
+  if (e.target.tagName === "A") {
+    navLinks.classList.remove("open");
+    menuBtnIcon.setAttribute("class", "ri-menu-line");
+  }
 });
 
 // Optional: Close the menu when clicking outside of it
 document.addEventListener("click", (e) => {
-  if (!menuBtn.contains(e.target) && !navLinks.contains(e.target) && navLinks.classList.contains("open")) {
+  if (
+    !menuBtn.contains(e.target) &&
+    !navLinks.contains(e.target) &&
+    navLinks.classList.contains("open")
+  ) {
     navLinks.classList.remove("open");
     menuBtnIcon.setAttribute("class", "ri-menu-line");
+  }
+});
+
+// Monitor screen size and remove the Contact link in full-screen mode
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 768) {
+    // Adjust the width to match your breakpoint
+    removeContactFromDropdown();
   }
 });
 
@@ -527,35 +565,70 @@ var swiper2 = new Swiper(".slide-content", {
       },
   },
 });
-
- 
-function handleSubmit2(event) {
+function handleSubmit(event) {
   event.preventDefault(); // Prevent default form submission
+  
+  const form = event.target;
+  const formData = new FormData(form);
 
-  // Show the thank you message
-  document.getElementById('thankYouMessage').style.display = 'block';
-
+  // Send the form data to FormKeep immediately
+  fetch(form.action, {
+    method: form.method,
+    body: formData,
+  })
+    .then((response) => {
+      if (response.ok) {
+        // Open the popup after successful form submission
+        openPopup();
+      } else {
+        console.error("Form submission failed:", response.statusText);
+        alert("There was an error submitting the form. Please try again.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error during form submission:", error);
+      alert("There was an error submitting the form. Please try again.");
+    });
 }
 
-let popup = document.getElementById('popup');
-
-  function openPopup() {
-    document.getElementById('popupContainer').classList.add('open-popup-container');
-    document.getElementById('popup').classList.add('open-popup');
+function openPopup() {
+  document.getElementById('popupContainer').classList.add('open-popup-container');
+  document.getElementById('popup').classList.add('open-popup');
 }
 
 function closePopup() {
-    document.getElementById('popupContainer').classList.remove('open-popup-container');
-    document.getElementById('popup').classList.remove('open-popup');
-    window.location.href = 'index.html'; // Redirect if necessary
-}
-function handleSubmit(event) {
-    event.preventDefault(); // Prevent default form submission
-    openPopup(); // Open the popup
-    return false; // Prevent default form submission
+  document.getElementById('popupContainer').classList.remove('open-popup-container');
+  document.getElementById('popup').classList.remove('open-popup');
+
+  // Reload the page after closing the popup
+  window.location.reload();
 }
 
-function confirmSubmission() {
-    document.getElementById('contactForm').submit(); // Submit the form when OK is clicked
-}
+// Attach the 'OK' button to the closePopup function
+document.querySelector('#popup button').addEventListener('click', closePopup);
+function handleSubmit2(event) {
+  event.preventDefault(); // Prevent default form submission
+  
+  const form = event.target;
+  const formData = new FormData(form);
 
+  // Send the form data to FormKeep immediately
+  fetch(form.action, {
+    method: form.method,
+    body: formData,
+  })
+    .then((response) => {
+      if (response.ok) {
+        // Show the thank you message after successful subscription
+        document.getElementById('thankYouMessage').style.display = 'block';  // Display the message
+        form.style.display = 'none';  // Hide the form (optional)
+      } else {
+        console.error("Form submission failed:", response.statusText);
+        alert("There was an error submitting the form. Please try again.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error during form submission:", error);
+      alert("There was an error submitting the form. Please try again.");
+    });
+}

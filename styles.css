@@ -91,7 +91,12 @@ body {
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
-  height: calc(100vh - 100px);
+
+}
+@media (min-width: 1200px) {
+  .indexheader {
+    height: calc(100vh - 100px);
+  }
 }
 
 .aboutheader {
