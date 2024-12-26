@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://essentialwebsitetesting.github.io/eawebsitedecember/sitemap.xml
