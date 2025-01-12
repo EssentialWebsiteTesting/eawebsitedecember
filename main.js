@@ -631,4 +631,110 @@ function handleSubmit2(event) {
       console.error("Error during form submission:", error);
       alert("There was an error submitting the form. Please try again.");
     });
+}// Automatically apply modal functionality to all images except those within <a> tags
+document.addEventListener("DOMContentLoaded", () => {
+  const images = document.querySelectorAll("img:not(a img)"); // Select all images not in <a> tags
+
+  images.forEach((image) => {
+    image.style.cursor = "pointer"; // Make the image look clickable
+    image.addEventListener("click", () => openModal(image));
+  });
+});
+
+// Function to create and open the modal
+function openModal(image) {
+  // Create the modal structure
+  let modal = document.getElementById("imageModal");
+
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "imageModal";
+    modal.style.position = "fixed";
+    modal.style.zIndex = "1000";
+    modal.style.left = "0";
+    modal.style.top = "0";
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+    modal.style.display = "none";
+    modal.style.justifyContent = "center";
+    modal.style.alignItems = "center";
+    modal.style.overflow = "auto";
+    modal.style.opacity = "0"; // Start fully transparent
+    modal.style.transition = "opacity 0.5s ease"; // Smooth transition
+
+    // Create close button
+    const closeButton = document.createElement("span");
+    closeButton.innerHTML = "&times;";
+    closeButton.style.position = "absolute";
+    closeButton.style.top = "20px";
+    closeButton.style.right = "35px";
+    closeButton.style.color = "white";
+    closeButton.style.fontSize = "40px";
+    closeButton.style.fontWeight = "bold";
+    closeButton.style.cursor = "pointer";
+    closeButton.style.transition = "color 0.3s ease"; // Add hover transition effect
+
+    // Add hover and click effects
+    closeButton.addEventListener("mouseover", () => {
+      closeButton.style.color = "red"; // Hover color
+    });
+    closeButton.addEventListener("mouseout", () => {
+      closeButton.style.color = "white"; // Reset color
+    });
+    closeButton.addEventListener("mousedown", () => {
+      closeButton.style.color = "rgb(0, 84, 135)"; // Click (active) color
+    });
+    closeButton.addEventListener("mouseup", () => {
+      closeButton.style.color = "red"; // Return to hover color
+    });
+    closeButton.addEventListener("click", closeModal); // Close modal on click
+
+    modal.appendChild(closeButton);
+
+    // Create the enlarged image
+    const modalImage = document.createElement("img");
+    modalImage.id = "expandedImage";
+    modalImage.style.maxWidth = "90%";
+    modalImage.style.maxHeight = "90%";
+    modalImage.style.objectFit = "contain";
+    modalImage.style.transition = "transform 0.3s ease"; // Add a zoom effect
+    modal.appendChild(modalImage);
+
+    // Append modal to body
+    document.body.appendChild(modal);
+  }
+
+  // Set the image source and display the modal
+  const expandedImage = document.getElementById("expandedImage");
+  expandedImage.src = image.src;
+
+  // Disable scrolling on the body
+  document.body.style.overflow = "hidden";
+
+  // Show the modal with a fade-in effect
+  modal.style.display = "flex";
+  setTimeout(() => {
+    modal.style.opacity = "1"; // Fade in
+  }, 0); // Slight delay to trigger the transition
 }
+
+// Function to close the modal with a fade-out effect
+function closeModal() {
+  const modal = document.getElementById("imageModal");
+  if (modal) {
+    modal.style.opacity = "0"; // Fade out
+    setTimeout(() => {
+      modal.style.display = "none"; // Hide after fade-out
+    }, 500); // Match the transition duration
+  }
+  // Re-enable scrolling on the body
+  document.body.style.overflow = "auto";
+}
+
+// Optional: Close modal with the Esc key
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeModal();
+  }
+});
