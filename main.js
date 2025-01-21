@@ -632,3 +632,18 @@ function handleSubmit2(event) {
       alert("There was an error submitting the form. Please try again.");
     });
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Find all mailto links on the page
+  const mailtoLinks = document.querySelectorAll('a[href^="mailto:"]');
+  
+  mailtoLinks.forEach(link => {
+    // Get the original email address from the href attribute
+    const email = link.getAttribute("href").replace("mailto:", "");
+    const obfuscatedEmail = email.split("").map(char => `&#${char.charCodeAt(0)};`).join("");
+
+    // Replace the link's href and inner text with the obfuscated version
+    link.setAttribute("href", `mailto:${email}`);
+    link.innerHTML = `<span><i class="ri-mail-fill"></i></span>${obfuscatedEmail}`;
+  });
+});
