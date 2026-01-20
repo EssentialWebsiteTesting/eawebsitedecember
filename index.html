@@ -244,11 +244,63 @@
             At Essential Autism, we're here to support you. If you're interested in learning more about our services or scheduling a consultation, 
             please fill out our contact form, and a member of our team will be in touch with you shortly.
           </p>
-          <h2 class="section__header">Office Hours</h2>
-          <p class="section__description">
-            <span class="weekday">Mon - Fri</span> 8:00 am - 4:00 pm<br>
-            <span class="weekday">Sat - Sun</span> Appointment Only
-          </p>
+          
+
+          <div class="hours-section">
+  <!-- Service Hours Column -->
+  <div class="hours-column">
+    <h2 class="section__header">Service Hours</h2>
+    <p class="section__description">
+      <span class="weekday">Mon – Fri</span> After-school hours, primarily beginning at 3:00 pm<br>
+      <span class="weekday">Sat – Sun</span> Open availability
+    </p>
+    <p class="hours-note">
+      Providing both ABA therapy and respite support to meet individual needs.
+    </p>
+  </div>
+
+  <!-- Office Hours Column -->
+  <div class="hours-column">
+    <h2 class="section__header">Office Hours</h2>
+    <p class="section__description">
+      <span class="weekday">Mon – Fri</span> 9:00 am – 5:00 pm<br><br>
+      <span class="weekday">Sat – Sun</span> Closed
+    </p>
+    <p class="hours-note">
+      Office manager available for administrative assistance and inquiries.
+    </p>
+  </div>
+</div>
+
+<style>
+.hours-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.hours-column {
+  flex: 1;
+  min-width: 250px;
+
+  /* Flex column so we can push note to bottom */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* pushes note to bottom */
+}
+
+.hours-note {
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 10px;
+}
+</style>
+
+
+
+
+
+
           <h2 class="section__header">Business Info</h2>
           <p class="section__description">
             <ul class="section__links">
