@@ -251,6 +251,29 @@
             Your insights and experiences are valuable to us, and we want to know anything you feel is important to share. 
             All applications are welcome, and we appreciate your interest in joining our team!
           </p>
+          <h2 class="section__header">Why Join Essential Autism?</h2>
+<p class="section__description">
+  At Essential Autism, every team member makes a difference. Our staff and volunteers are at the heart of the services we provide, 
+  supporting families and individuals with autism in meaningful ways.
+</p>
+<p class="section__description">
+  Whether you’re interested in gaining experience as a Behavioural Technician, contributing as a Volunteer, or joining our skilled Respite team, 
+  your commitment matters. We offer a supportive environment where your skills are valued, and your contributions help us grow as a community-focused organization.
+</p>
+<p class="section__description">
+  As of right now, for Behavioural Technicians and Respite Workers, Monday and Wednesday 3–8 PM shifts are mandatory. 
+  These positions are currently hiring, so if you meet the availability requirements, we encourage you to apply.
+</p>
+
+<h2 class="section__header">When you join our team, you can expect:</h2>
+          <p class="section__description">
+            <span class="weekday">- Hands-on experience supporting individuals with autism</span><br>
+            <span class="weekday">- Professional development and training opportunities</span><br>
+            <span class="weekday">- Collaborative and inclusive work environment</span><br>
+            <span class="weekday">- Chance to make a meaningful impact in your community</span><br>
+            <span class="weekday">- A team built on family, support, and collaboration</span><br>
+          </p>
+
     
           <h2 class="section__header">Contact Info</h2>
           <p class="section__description">
@@ -260,43 +283,145 @@
             </ul>
           </p>
         </div>
-        
-        
         <div class="header__form">
-          <form id="contactForm" action="https://formkeep.com/f/cb8f20d410e1" method="POST" enctype="multipart/form-data" onsubmit="handleSubmit(event);">
-            <h4>Job Application</h4>
-            <input type="text" name="name" placeholder="Name" required />
-            <input type="email" name="email" placeholder="Email" required />
-            <input type="tel" name="phone" placeholder="Phone" required />
-            <select name="position" required>
-              <option disabled selected value="">Select the position you are applying for</option>
-              <option value="Behavioural Technician">Behavioural Technician</option>
-              <option value="Behaviour Analyst">Behaviour Analyst</option>
-              
-              <option value="Volunteer">Volunteer</option>
-              <option value="Respite Worker">Respite Worker</option>
-              
-            </select>
-            <textarea name="why_join" placeholder="Why do you want to join us?" required></textarea>
-            <textarea name="experience" placeholder="Describe your relevant experience." required></textarea>
-            <label for="documents">Select your documents (Resume, Cover Letter, References):</label>
-            <input type="file" class="form-control" id="documents" name="documents[]" accept=".pdf,.doc,.docx" multiple required>
-            <small class="form-text text-muted">You can upload multiple files (PDF or Word format).</small>
-            <button type="submit" class="btn form__btn">Submit Application</button>
-          </form>
+  <form id="contactForm" action="https://formkeep.com/f/cb8f20d410e1" method="POST" enctype="multipart/form-data" onsubmit="handleSubmit(event);">
+    <h4>Job Application</h4>
+    <input type="text" name="name" placeholder="Name" required />
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="tel" name="phone" placeholder="Phone" required />
+    
+    <select name="position" required>
+      <option disabled selected value="">Select the position you are applying for</option>
+      <option value="Behavioural Technician">Behavioural Technician</option>
+      <option value="Behaviour Analyst">Behaviour Analyst</option>
+      <option value="Volunteer">Volunteer</option>
+      <option value="Respite Worker">Respite Worker</option>
+    </select>
+    
+    <textarea name="why_join" placeholder="Why do you want to join us?" required></textarea>
+    <textarea name="experience" placeholder="Describe your relevant experience." required></textarea>
+    
+    <label for="documents">Select your documents (Resume, Cover Letter, References):</label>
+    <input type="file" class="form-control" id="documents" name="documents[]" accept=".pdf,.doc,.docx" multiple required>
+    <small class="form-text text-muted">You can upload multiple files (PDF or Word format).</small>
+    
+    <!-- Availability Table START -->
+    <h4>Availability</h4>
+    <p class="availability-note">
+  <strong>Note:</strong> As of now, for <em>Behavioural Technicians</em> and <em>Respite Workers</em>, Monday and Wednesday 3–8 PM are mandatory. These positions are currently hiring. Additionally, if these hours don’t match your exact availability, please indicate the times that most closely reflect when you are available.
+</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>8am-12pm</th>
+          <th>12pm-3pm</th>
+          <th>3pm-8pm</th>
+          <th>Not Available</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Monday -->
+        <tr>
+          <td>Monday*</td>
+          <td><input type="checkbox" name="monday[]" value="8-12"></td>
+          <td><input type="checkbox" name="monday[]" value="12-3"></td>
+          <td><input type="checkbox" name="monday[]" value="3-8" required></td>
+          <td><input type="checkbox" name="monday[]" value="Not Available"></td>
+       
+        </tr>
+        <!-- Tuesday -->
+        <tr>
+          <td>Tuesday</td>
+          <td><input type="checkbox" name="tuesday[]" value="8-12"></td>
+          <td><input type="checkbox" name="tuesday[]" value="12-3"></td>
+          <td><input type="checkbox" name="tuesday[]" value="3-8"></td>
+          <td><input type="checkbox" name="tuesday[]" value="Not Available"></td>
+      
+        </tr>
+        <!-- Wednesday -->
+        <tr>
+          <td>Wednesday*</td>
+          <td><input type="checkbox" name="wednesday[]" value="8-12"></td>
+          <td><input type="checkbox" name="wednesday[]" value="12-3"></td>
+          <td><input type="checkbox" name="wednesday[]" value="3-8" required></td>
+          <td><input type="checkbox" name="wednesday[]" value="Not Available"></td>
+        
+        </tr>
+        <!-- Thursday -->
+        <tr>
+          <td>Thursday</td>
+          <td><input type="checkbox" name="thursday[]" value="8-12"></td>
+          <td><input type="checkbox" name="thursday[]" value="12-3"></td>
+          <td><input type="checkbox" name="thursday[]" value="3-8"></td>
+          <td><input type="checkbox" name="thursday[]" value="Not Available"></td>
+          
+        </tr>
+        <!-- Friday -->
+        <tr>
+          <td>Friday</td>
+          <td><input type="checkbox" name="friday[]" value="8-12"></td>
+          <td><input type="checkbox" name="friday[]" value="12-3"></td>
+          <td><input type="checkbox" name="friday[]" value="3-8"></td>
+          <td><input type="checkbox" name="friday[]" value="Not Available"></td>
+          
+        </tr>
+        <!-- Saturday -->
+        <tr>
+          <td>Saturday</td>
+          <td><input type="checkbox" name="saturday[]" value="8-12"></td>
+          <td><input type="checkbox" name="saturday[]" value="12-3"></td>
+          <td><input type="checkbox" name="saturday[]" value="3-8"></td>
+          <td><input type="checkbox" name="saturday[]" value="Not Available"></td>
+          
+        </tr>
+        <!-- Sunday -->
+        <tr>
+          <td>Sunday</td>
+          <td><input type="checkbox" name="sunday[]" value="8-12"></td>
+          <td><input type="checkbox" name="sunday[]" value="12-3"></td>
+          <td><input type="checkbox" name="sunday[]" value="3-8"></td>
+          <td><input type="checkbox" name="sunday[]" value="Not Available"></td>
+          
+        </tr>
+      </tbody>
+    </table>
+    <!-- Availability Table END -->
+    
+    <button type="submit" class="btn form__btn">Submit Application</button>
+  </form>
 
-          <!-- Popup -->
-          <div class="popup-container" id="popupContainer">
-            <div class="popup" id="popup">
-                <img src="assets/tick2.png" alt="checkmark">
-                <h2>Thank You!</h2>
-                <p>Your details have been successfully submitted. We will reach out to you as soon as possible. Thank you for your patience!</p>
-                <button type="button" onclick="closePopup()">OK</button>
-            </div>
-          </div>
+  <!-- Popup -->
+  <div class="popup-container" id="popupContainer">
+    <div class="popup" id="popup">
+        <img src="assets/tick2.png" alt="checkmark">
+        <h2>Thank You!</h2>
+        <p>Your details have been successfully submitted. We will reach out to you as soon as possible. Thank you for your patience!</p>
+        <button type="button" onclick="closePopup()">OK</button>
     </div>
-</section>
+  </div>
+</div>
 
+<script>
+  // Prevent checking "Not Available" with other slots
+  document.querySelectorAll('tr').forEach(row => {
+    const notAvailable = row.querySelector('input[value="Not Available"]');
+    if(notAvailable) {
+      const timeSlots = [...row.querySelectorAll('input[type="checkbox"]')].filter(i => i.value !== "Not Available");
+      notAvailable.addEventListener('change', () => {
+        if(notAvailable.checked) {
+          timeSlots.forEach(i => i.checked = false);
+        }
+      });
+      timeSlots.forEach(slot => {
+        slot.addEventListener('change', () => {
+          if(slot.checked) notAvailable.checked = false;
+        });
+      });
+    }
+  });
+</script>
+</div>
 
 <footer id="contact1">
       <div class="section__container footer__container">
@@ -342,7 +467,7 @@
         </div>
       </div>
       <div class="footer__bar">
-        Copyright © 2024 Essential Autism. All rights reserved.
+        Copyright © 2026 Essential Autism. All rights reserved.
       </div>
     </footer>
 
